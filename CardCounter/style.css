@@ -1,0 +1,42 @@
+body {
+	background-color: #eee;
+	font-family: "Lato", sans-serif;
+	margin-left: 24px;
+	margin-right: 24px;
+}
+
+#text {
+	font-size: 140px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+button:HOVER {
+	color: black;
+	background-color: #ffe;
+	border-width: 2px;
+	border-color: #ff6;
+}
+
+button {
+	cursor: pointer;
+	text-align: center;
+	padding: 4px;
+	background-color: #ff6;
+	border-radius: 8px;
+	font-weight: bold;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #222;
+	box-shadow: 8px 8px 8px #666;
+}
+
+img.card {
+	height: 20px;
+	margin-right: 4px;
+}
+
+#controls {
+	margin-top: 8px;
+}
