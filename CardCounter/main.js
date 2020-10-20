@@ -30,12 +30,9 @@ function guess(isRandomGuess) {
 			for (let depth = Math.min(history.length, maxDepth - 1); depth > 0 && !deepestNode; depth--) {
 				// console.log('depth ', depth);
 				let currNode = root;
-				for (let i = 0; i < depth && i < history.length; i++) {
+				for (let i = 0; i < depth && i < history.length && currNode; i++) {
 					deepestNode = currNode;
-					currNodeNode = currNode.children.find(e => e.color == history[history.length - 1 - i]);
-					if (!currNode) {
-						break;
-					}
+					currNode = currNode.children.find(e => e.color == history[history.length - 1 - i]);
 				}
 			}
 			// console.log('history', history);
