@@ -7,17 +7,43 @@ function onLoad() {
 }
 
 function enterDeck() {
+	deck = [];
+	refreshDeck();
 
+	let html = '';
+	for (const color of generateCards()) {
+		const filename = (color == '*' ? 'wild' : color) + '.png';
+		html += `<img class="card" src="images/${filename}" onClick="addCard(\'${color}\', this)"/>`;
+	}
+	document.getElementById('remaining-cards').innerHTML = html;
+	document.getElementById('remaining-cards-container').classList.remove('hidden');
+	document.querySelectorAll('#controls button').forEach(button => button.disabled = true);
+}
+
+function addCard(color, el) {
+	el.remove();
+	deck.push(color);
+	refreshDeck();
+	if (deck.length == 110) {
+		document.getElementById('remaining-cards-container').classList.add('hidden');
+		document.querySelectorAll('#controls button').forEach(button => button.disabled = false);
+		count(false);
+		count(true);
+	}
 }
 
 function countShuffled() {
+	document.getElementById('remaining-cards-container').classList.add('hidden');
 	deck = shuffle();
+	refreshDeck();
 	count(false);
 	count(true);
 }
 
 function countUnshuffled() {
+	document.getElementById('remaining-cards-container').classList.add('hidden');
 	deck = generateCards();
+	refreshDeck();
 	count(false);
 	count(true);
 }
@@ -26,7 +52,6 @@ function count(isBlind) {
 	let sum = 0;
 	const n = 40;
 	for (let i = 0; i < n; i++) {
-		refreshDeck();
 		sum += guess(isBlind);
 	}
 	const id = isBlind ? 'blind-guess-result' : 'educated-guess-result';
@@ -146,7 +171,7 @@ function refreshDeck() {
 	let html = '';
 	for (const color of deck) {
 		const filename = (color == '*' ? 'wild' : color) + '.png';
-		html += `<img class="card" src="images/${filename}"/>`;
+		html += `<img class="card" src="images/${filename}" />`;
 	}
 	document.getElementById('deck').innerHTML = html;
 }

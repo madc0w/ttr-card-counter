@@ -9,7 +9,15 @@
 	</head>
 
 	<body onLoad="onLoad()">
-		<div id="deck"></div>
+		<div id="deck-container">
+			<div>Deck:</div>
+			<div id="deck"></div>
+		</div>
+		<div id="remaining-cards-container" class="hidden">
+			<hr />
+			<div>Remainging cards:</div>
+			<div id="remaining-cards"></div>
+		</div>
 		<div id="controls">
 			<button onClick="countShuffled()">Shuffled</button>
 			<button onClick="countUnshuffled()">Unshuffled</button>
