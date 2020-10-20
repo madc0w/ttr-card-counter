@@ -11,7 +11,21 @@
 	<body onLoad="onLoad()">
 		<div id="deck"></div>
 		<div id="controls">
-			<button onClick="shuffle()">Shuffle</button>
+			<button onClick="countShuffled()">Shuffled</button>
+			<button onClick="countUnshuffled()">Unshuffled</button>
+			<button onClick="enterDeck()">Enter Deck</button>
+		</div>
+		<div id="results">
+			<div>
+				<div class="label">Blind guessing:</div>
+				<span id="blind-guess-result"></span>
+				<span class="label">% correct</span>
+			</div>
+			<div>
+				<div class="label">Educated guessing:</div>
+				<span id="educated-guess-result"></span>
+				<span class="label">% correct</span>
+			</div>
 		</div>
 	</body>
 

@@ -3,18 +3,37 @@ const colors = ['r', 'b', 'g', 'y', 'o', 'v', 'k', 'w', '*'];
 let deck = [];
 
 function onLoad() {
-	let sum = 0;
-	const n = 20;
-	for (let i = 0; i < n; i++) {
-		deck = generateCards();
-		// shuffle();
-		refreshDeck();
-		sum += guess();
-	}
-	console.log('mean numCorrect', sum / n);
+	countShuffled();
 }
 
-function guess(isRandomGuess) {
+function enterDeck() {
+
+}
+
+function countShuffled() {
+	deck = shuffle();
+	count(false);
+	count(true);
+}
+
+function countUnshuffled() {
+	deck = generateCards();
+	count(false);
+	count(true);
+}
+
+function count(isBlind) {
+	let sum = 0;
+	const n = 40;
+	for (let i = 0; i < n; i++) {
+		refreshDeck();
+		sum += guess(isBlind);
+	}
+	const id = isBlind ? 'blind-guess-result' : 'educated-guess-result';
+	document.getElementById(id).innerHTML = (100 * sum / (n * deck.length)).toFixed(1);
+}
+
+function guess(isBlind) {
 	const remaining = generateCards();
 	const root = {
 		color: null,
@@ -26,11 +45,11 @@ function guess(isRandomGuess) {
 
 	for (const card of deck) {
 		let deepestNode = null;
-		if (!isRandomGuess) {
+		if (!isBlind) {
 			for (let depth = Math.min(history.length, maxDepth - 1); depth > 0 && !deepestNode; depth--) {
 				// console.log('depth ', depth);
 				let currNode = root;
-				for (let i = 0; i < depth && i < history.length && currNode; i++) {
+				for (let i = 0; i < depth && currNode; i++) {
 					deepestNode = currNode;
 					currNode = currNode.children.find(e => e.color == history[history.length - 1 - i]);
 				}
@@ -102,13 +121,14 @@ function guess(isRandomGuess) {
 }
 
 function shuffle() {
-	deck = [];
+	const deck = [];
 	const cards = generateCards();
 	do {
 		const cardIndex = Math.floor(Math.random() * cards.length);
 		deck.push(cards[cardIndex]);
 		cards.splice(cardIndex, 1);
 	} while (cards.length > 0);
+	return deck;
 }
 
 function generateCards() {

@@ -26,10 +26,11 @@ button {
 	background-color: #ff6;
 	border-radius: 8px;
 	font-weight: bold;
-	border-width: 1px;
+	border-width: 2px;
 	border-style: solid;
 	border-color: #222;
 	box-shadow: 8px 8px 8px #666;
+	margin-right: 8px;
 }
 
 img.card {
@@ -38,5 +39,15 @@ img.card {
 }
 
 #controls {
-	margin-top: 8px;
+	margin-top: 18px;
+	height: 32px;
+}
+
+#results {
+	margin-top: 12px;
+}
+
+#results .label {
+	display: inline-block;
+	width: 140px;
 }
