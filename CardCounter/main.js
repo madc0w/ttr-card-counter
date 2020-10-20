@@ -3,11 +3,18 @@ const colors = ['r', 'b', 'g', 'y', 'o', 'v', 'k', 'w', '*'];
 let deck = [];
 
 function onLoad() {
-	shuffle();
-	guess();
+	let sum = 0;
+	const n = 20;
+	for (let i = 0; i < n; i++) {
+		deck = generateCards();
+		// shuffle();
+		refreshDeck();
+		sum += guess();
+	}
+	console.log('mean numCorrect', sum / n);
 }
 
-function guess() {
+function guess(isRandomGuess) {
 	const remaining = generateCards();
 	const root = {
 		color: null,
@@ -19,45 +26,52 @@ function guess() {
 
 	for (const card of deck) {
 		let deepestNode = null;
-		for (let depth = maxDepth - 1; depth > 0 && !deepestNode; depth--) {
-			console.log('depth ', depth);
-			let currNode = root;
-			for (let i = 0; i < depth && i < history.length; i++) {
-				const nextNode = currNode.children.find(e => e.color == history[history.length - 1 - i]);
-				if (nextNode) {
-					currNode = nextNode;
-				} else {
+		if (!isRandomGuess) {
+			for (let depth = Math.min(history.length, maxDepth - 1); depth > 0 && !deepestNode; depth--) {
+				// console.log('depth ', depth);
+				let currNode = root;
+				for (let i = 0; i < depth && i < history.length; i++) {
 					deepestNode = currNode;
-					break;
+					currNodeNode = currNode.children.find(e => e.color == history[history.length - 1 - i]);
+					if (!currNode) {
+						break;
+					}
 				}
 			}
+			// console.log('history', history);
+			// console.log('deepestNode', deepestNode);
 		}
-		console.log('deepestNode', deepestNode);
 
 		let currGuess = null;
 		if (deepestNode) {
 			const possible = [];
 			let countSum = 0;
-			for (const r of remaining) {
-				const found = deepestNode.children.find(child => r == child.color);
-				if (found) {
-					possible.push(found);
-					countSum += found.count;
+			for (const child of deepestNode.children) {
+				const foundColor = remaining.find(remainingColor => child.color == remainingColor);
+				if (foundColor) {
+					const node = deepestNode.children.find(child => child.color == foundColor);
+					possible.push(node);
+					countSum += node.count;
 				}
 			}
+			// console.log('possible', possible);
 
 			const r = Math.random() * countSum;
 			let sum = 0;
 			for (const p of possible) {
 				sum += p.count;
 				if (sum >= r) {
-					currGuess = p;
+					currGuess = p.color;
 					break;
 				}
 			}
 		}
 
-		if (!currGuess) {
+		if (currGuess) {
+			if (!remaining.includes(currGuess)) {
+				console.error('bad guess!');
+			}
+		} else {
 			currGuess = remaining[Math.floor(Math.random() * remaining.length)];
 		}
 
@@ -83,9 +97,11 @@ function guess() {
 			}
 			currNode.count++;
 		}
-		console.log('card', card);
+		// console.log('card', card);
+		// console.log('root', root);
 	}
-	console.log('root', root);
+	// console.log('numCorrect', numCorrect);
+	return numCorrect;
 }
 
 function shuffle() {
@@ -96,7 +112,6 @@ function shuffle() {
 		deck.push(cards[cardIndex]);
 		cards.splice(cardIndex, 1);
 	} while (cards.length > 0);
-	refreshDeck();
 }
 
 function generateCards() {
