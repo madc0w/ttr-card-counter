@@ -21,7 +21,7 @@ function enterDeck() {
 	let html = '';
 	for (const color of generateCards()) {
 		const filename = (color == '*' ? 'wild' : color) + '.png';
-		html += `<img class="card" src="images/${filename}" onClick="addCard(\'${color}\', this)"/>`;
+		html += `<img class="card" src="images/ttr-cards/${filename}" onClick="addCard(\'${color}\', this)"/>`;
 	}
 	document.getElementById('remaining-cards').innerHTML = html;
 	document.getElementById('remaining-cards-container').classList.remove('hidden');
@@ -192,7 +192,7 @@ function refreshDeck() {
 	let html = '';
 	for (const color of deck) {
 		const filename = (color == '*' ? 'wild' : color) + '.png';
-		html += `<img class="card" src="images/${filename}" />`;
+		html += `<img class="card" src="images/ttr-cards/${filename}" />`;
 	}
 	document.getElementById('deck').innerHTML = html;
 }
